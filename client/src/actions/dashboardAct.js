@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE } from  '../constants/actionTypes';
+import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN } from  '../constants/actionTypes';
 
 // import functions
 import { sortDateArr } from '../utils/utils';
@@ -48,4 +48,14 @@ export const deleteDate = (id) => async (dispatch) => {
     } catch (error) {
         console.log(error)
     }
+}
+
+// handle menu
+export const handleActiveMenu = (activeMenu) => (dispatch) => {
+    dispatch({ type: ACTIVE_MENU, payload: activeMenu })
+}
+
+// handle screen size
+export const handleResizeScreen = (screenSize) => (dispatch) => {
+    dispatch({ type: RESIZE_SCREEN, payload: screenSize })
 }
