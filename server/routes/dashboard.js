@@ -15,7 +15,6 @@ router.delete('/dates/:id', deleteDate);
 router.get('/message/:id', getMessage);
 router.post('/message/new', createNewPlaceForMessage)
 router.patch('/message/:id', updateMessage)
-router.get('/message/:id', auth);
 // router.post('/message/new', auth, createNewPlaceForMessage)
 // router.patch('/message/:id', auth, updateMessage)
 
