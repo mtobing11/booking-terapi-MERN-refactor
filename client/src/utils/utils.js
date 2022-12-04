@@ -66,3 +66,21 @@ export const formattingDate = (date, arrFormat) => {
 
     return formatDateSub(date, arrFormat)
 }
+
+// adjust status shifts in a array
+export const setupShitsStatus = (shiftNum, maxShift) => {
+    let arr = []
+    for (let i = 0; i < maxShift; i++){
+        i < shiftNum ? arr.push(true) : arr.push(false);
+    }
+    return arr;
+}
+
+// cut schedules array if necessary
+export const cutArray = (arr, numLength) => {
+    let newArr = [...arr];
+    if (arr.length > numLength){
+        newArr.splice(numLength)
+    }
+    return newArr;
+}

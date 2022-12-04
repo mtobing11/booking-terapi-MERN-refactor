@@ -14,11 +14,11 @@ export const createNewDate = (dateForm) => API.post('/dashboard/dates/new', date
 export const updateDate = (dateForm, id) => API.patch(`/dashboard/dates/${id}`, dateForm);
 export const deleteDate = (id) => API.delete(`/dashboard/dates/${id}`);
 
-export const fetchMessage = () => API.get('/dashboard/message');
+export const fetchMessage = (id) => API.get(`/dashboard/message/${id}`);
 export const createNewMessage = (messageForm) => API.post('/dashboard/message/new', messageForm);
 export const updateMessage = (messageForm, id) => API.patch(`/dashboard/message/${id}`, messageForm);
 
-export const fetchSetup = () => API.get('/dashboard/setup');
+export const fetchSetup = (id) => API.get(`/dashboard/setup/${id}`);
 export const createNewSetup = (setupForm) => API.post('/dashboard/setup/new', setupForm);
 export const updateSetup = (setupForm, id) => API.patch(`/dashboard/setup/${id}`, setupForm);
 

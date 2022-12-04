@@ -25,9 +25,9 @@ export const links = [
     title: 'Pages',
     links: [
       {
-        name: 'Booking Date',
+        name: 'Date Control',
         icon: <CalendarMonthIcon />,
-        link: 'bookingdate',
+        link: 'datecontrol',
       },
       {
         name: 'List today',

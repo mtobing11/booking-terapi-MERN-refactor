@@ -56,7 +56,7 @@ const Sidebar = () => {
                 <Paper key={item.title} elevation={0}>
                   <Typography>{item.title}</Typography>
                   {item.links.map((link) => (
-                    <NavLink to={`/dashboard/${link.link}`} key={link.name} onClick={handleCloseSidebar}
+                    <NavLink to={`/boardpanel/${link.link}`} key={link.name} onClick={handleCloseSidebar}
                       style = { ({ isActive }) => isActive ? activeLink : normalLink }
                     >
                       <span style={{ width: '30px' }}>{link.icon}</span>

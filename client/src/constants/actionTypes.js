@@ -4,3 +4,7 @@ export const UPDATE_DATE = 'UPDATE_DATE';
 export const DELETE_DATE = 'DELETE_DATE';
 export const ACTIVE_MENU = 'ACTIVE_MENU';
 export const RESIZE_SCREEN = 'RESIZE_SCREEN';
+export const SETUP = 'SETUP';
+export const SET_EDIT_DATE = 'SET_EDIT_DATE';
+export const RESET = 'RESET';
+export const ERROR = 'ERROR';

@@ -23,19 +23,19 @@ export const openNewDate = async (req, res) => {
     console.log("Open new Date");
     // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
 
-    const { newDate } = req.body;
+    const { openDate } = req.body;
     
-    let beginDate = formatDate(newDate, 'dmmmy');
-    let endDate = formatDate(newDate, 'dmmmy');
+    let beginDate = formatDate(openDate, 'dmmmy');
+    let endDate = formatDate(openDate, 'dmmmy');
     endDate.setDate(beginDate.getDate() + 1);
     
     try {
         const arrDates = await OpenDate.find({ $and: [{ openDate: { $gte: beginDate, $lt: endDate } }]})
-        if(arrDates.length > 0) return res.json({  message: 'Date already exist', type: 'err_data'})
+        if(arrDates.length > 0) return res.status(404).json({  message: 'Date already exist' })
 
         const { creator, capacity, shifts, schedules, shiftsStatus, bookingLimit } = req.body;
         
-        const newObjDate = await OpenDate({ openDate: new Date(newDate).toISOString(), createdAt: new Date(), creator, capacity, shifts, schedules, shiftsStatus, bookingLimit})
+        const newObjDate = await OpenDate({ openDate: new Date(openDate).toISOString(), createdAt: new Date(), creator, capacity, shifts, schedules, shiftsStatus, bookingLimit})
         
         await newObjDate.save()
         res.status(201).json(newObjDate)
