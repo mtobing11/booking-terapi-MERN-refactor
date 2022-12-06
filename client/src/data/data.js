@@ -32,17 +32,17 @@ export const links = [
       {
         name: 'List today',
         icon: <PeopleAltIcon />,
-        link: 'displaycustomerstoday',
+        link: 'display1',
       },
       {
         name: 'List tomorrow',
         icon: <Groups2Icon />,
-        link: 'displaycustomersnextday',
+        link: 'display2',
       },
       {
-        name: 'Announce Message',
+        name: 'Message Control',
         icon: <CampaignIcon />,
-        link: 'announce',
+        link: 'messagecontrol',
       },
       {
         name: 'Initial Setup',

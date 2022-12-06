@@ -10,9 +10,9 @@ const dateModelSchema = mongoose.Schema({
     schedules: [ String ],
     shiftsStatus: [ Boolean ],
     bookingLimit: { type: Number, default: 1 },
-    customersShift1:  [{ name: String, cellphone: Number, timestamp: Date }], 
-    customersShift2:  [{ name: String, cellphone: Number, timestamp: Date }], 
-    customersShift3:  [{ name: String, cellphone: Number, timestamp: Date }] 
+    customersShift1:  [{ name: String, cellphone: Number, bookedAt: Date }], 
+    customersShift2:  [{ name: String, cellphone: Number, bookedAt: Date }], 
+    customersShift3:  [{ name: String, cellphone: Number, bookedAt: Date }] 
 });
 
 const OpenDate = mongoose.model('OpenDate', dateModelSchema);

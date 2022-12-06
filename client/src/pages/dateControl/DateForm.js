@@ -31,19 +31,14 @@ const DateForm = () => {
 
   
   useEffect(() => {
-    const dateNow = new Date();
-    dateNow.setDate(dateNow.getDate() + 1);
-    if(setup){
-      let shiftsStatus = setupShitsStatus(setup.shifts, maxShift);
-      setDateForm({...setup, openDate: moment(new Date(dateNow)), shiftsStatus: shiftsStatus});
-    }
+    setupDataFormSetup()
   }, [setup])
 
   useEffect(() => {
     if(editDateData){
       setDateForm({...editDateData })
       editRef.current.focus()
-      console.log(editDateID)
+      // console.log(editDateID)
     }
   }, [editDateData])
 
@@ -63,6 +58,10 @@ const DateForm = () => {
     ]
   }, [dateForm])
 
+  useEffect(() => {
+    setupDataFormSetup()
+  }, [])
+
   const handleSubmit = () => {
     setDialogOpen(false);
     if(editDateID){dispatch(updateDate(dateForm, editDateID))}
@@ -78,6 +77,15 @@ const DateForm = () => {
     tempArr[idx] = e.target.value;
     
     setDateForm({ ...dateForm, schedules: tempArr });
+  }
+
+  const setupDataFormSetup = () => {
+    let dateNow = new Date();
+    dateNow.setDate(dateNow.getDate() + 1);
+    if(setup){
+      let shiftsStatus = setupShitsStatus(setup.shifts, maxShift);
+      setDateForm({...setup, openDate: moment(new Date(dateNow)), shiftsStatus: shiftsStatus});
+    }
   }
 
   return (

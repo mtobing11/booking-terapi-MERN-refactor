@@ -84,3 +84,43 @@ export const cutArray = (arr, numLength) => {
     }
     return newArr;
 }
+
+// find the right date
+export const findDate = ( exactDate, arrDate ) => {
+    let dateToFind = formattingDate(exactDate, 'ymd');
+    let tempArr = [...arrDate];
+    
+    // tempArr.map((date) => console.log(formattingDate(new Date((date.openDate)), 'ymd')));
+    let findDateData = tempArr.filter((obj) => dateToFind === formattingDate(new Date((obj.openDate)), 'ymd'));
+
+    return findDateData
+}
+
+// find date index
+export const findDateIndex = ( exactDate, arrDate ) => {
+    let dateToFind = formattingDate(exactDate, 'ymd');
+    let tempArr = [...arrDate];
+    
+    let dateArr = tempArr.map((obj) => formattingDate(new Date((obj.openDate)), 'ymd'));
+    let dateIndex = dateArr.indexOf(dateToFind)
+
+    return dateIndex
+}
+
+// make new array of objects
+export const makeNewArrObject = (oldArr, goalArr, date, shift) => {
+
+    let arr = oldArr.map((cust, idx) => {
+        
+        function newArr(obj){
+            return goalArr.map((val) => obj[val])
+        }
+        
+        let tempArr = newArr(cust)
+        let formattedDate = formattingDate(new Date(date), 'dmmy')
+        
+        return [formattedDate, tempArr[0], tempArr[1], shift, idx+1, formattingDate(new Date(tempArr[2]))]
+    })
+
+    return arr;
+}

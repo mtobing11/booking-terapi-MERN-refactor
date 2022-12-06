@@ -31,7 +31,7 @@ export const openNewDate = async (req, res) => {
     
     try {
         const arrDates = await OpenDate.find({ $and: [{ openDate: { $gte: beginDate, $lt: endDate } }]})
-        if(arrDates.length > 0) return res.status(404).json({  message: 'Date already exist' })
+        if(arrDates.length > 0) return res.status(404).json({ message: 'Date already exist' })
 
         const { creator, capacity, shifts, schedules, shiftsStatus, bookingLimit } = req.body;
         

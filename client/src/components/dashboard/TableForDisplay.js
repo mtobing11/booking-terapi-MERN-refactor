@@ -2,12 +2,12 @@ import React from 'react';
 
 // import components
 import { Paper, Table, TableCell, TableRow, TableBody, TableHead, TableContainer } from '@mui/material';
-import ModifyMenu from './ModifyMenu';
+import ModifyMenu from '../../pages/dateControl/ModifyMenu';
 
-const DatesList = ({ headArr=[], contentArr=[], dates=[]}) => {
+const TableForDisplay = ({ headArr=[], contentArr=[], dates=[], needAddMenu=false }) => {
   return (
     <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 300 }} aria-label="table-dates" size='small'>
+        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="table-dates" size='small'>
             <TableHead>
                 <TableRow>
                   {headArr.map((head, idx) => (
@@ -19,9 +19,10 @@ const DatesList = ({ headArr=[], contentArr=[], dates=[]}) => {
               {contentArr.map((contentItemArr, idx) => (
                 <TableRow key={`${contentItemArr}-${idx}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   {contentItemArr.map((content, idn) => (
-                    idn === contentItemArr.length - 1 ? 
-                    <TableCell key={`cellrow-${idn}`} align='right'><ModifyMenu id={contentItemArr[6]} data={dates[idx]} /></TableCell> : 
-                    <TableCell key={`cellrow-${idn}`} align='right'>{content}</TableCell>
+                    idn === contentItemArr.length - 1 && needAddMenu ? 
+                    <TableCell key={`cellrow-${idn}`} align='right'><ModifyMenu id={contentItemArr[6]} data={dates[idx]} /></TableCell> : idn === 0 ?
+                    <TableCell key={`cellrow-${idn}`} align='left'>{content}</TableCell> :
+                    <TableCell key={`cellrow-${idn}`} align='right'>{content}</TableCell> 
                   ))}
                 </TableRow>
               ))}
@@ -31,4 +32,4 @@ const DatesList = ({ headArr=[], contentArr=[], dates=[]}) => {
   )
 }
 
-export default DatesList
+export default TableForDisplay

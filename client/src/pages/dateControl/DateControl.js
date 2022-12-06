@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Grid } from '@mui/material';
 import Header from '../../components/dashboard/Header';
 import DateForm from './DateForm';
-import DatesList from './DatesList';
+import TableForDisplay from '../../components/dashboard/TableForDisplay';
 
 // import functions
 import { formattingDate } from '../../utils/utils';
@@ -46,7 +46,7 @@ const DateControl = () => {
             <DateForm />
           </Grid>
           <Grid item xs={8}>
-            <DatesList headArr={tableHeadArr} contentArr={tableContentArr} dates={dates} />
+            <TableForDisplay headArr={tableHeadArr} contentArr={tableContentArr} dates={dates} needAddMenu={true} />
           </Grid>
         </Grid>
     </Paper>
