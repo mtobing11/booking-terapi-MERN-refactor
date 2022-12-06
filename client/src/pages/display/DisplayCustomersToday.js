@@ -32,7 +32,7 @@ const DisplayCustomersToday = () => {
 
   useEffect(() => {
     if(dates.length > 0){
-      let dateData = findDate(new Date(), dates)
+      let dateData = findDate(dates, true)
       if(dateData.length > 0){
         let tempArr = arrangeArr(dateData[0])
         setIsDataToday(true)

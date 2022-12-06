@@ -8,6 +8,8 @@ import Overview from './pages/Overview';
 import DateControl from './pages/dateControl/DateControl';
 import DisplayCustomersToday from './pages/display/DisplayCustomersToday';
 import DisplayCustomersAll from './pages/display/DisplayCustomersAll';
+import OpeningMessage from './pages/openingMessage/OpeningMessage';
+import SetupTemplate from './pages/setupTemplate/SetupTemplate'
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
             <Route path='datecontrol' element={<DateControl />} />
             <Route path='display1' element={<DisplayCustomersToday />} />
             <Route path='display2' element={<DisplayCustomersAll />} />
+            <Route path='messagecontrol' element={<OpeningMessage />} />
+            <Route path='setuptemplate' element={<SetupTemplate />} />
         </Route>
       </Routes>
     </BrowserRouter>

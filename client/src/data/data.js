@@ -45,9 +45,9 @@ export const links = [
         link: 'messagecontrol',
       },
       {
-        name: 'Initial Setup',
+        name: 'Setup Template',
         icon: <SettingsSuggestIcon />,
-        link: 'initialsetup',
+        link: 'setuptemplate',
       },
     ],
   },

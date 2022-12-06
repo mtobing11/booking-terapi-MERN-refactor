@@ -12,9 +12,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const MessageSnackbar = ({  isAlert, setIsAlert }) => {
+const MessageSnackbar = ({  isAlert, setIsAlert, messageRes, type }) => {
   const dispatch = useDispatch();
+  const [respondMessage, setRespondMessage] = React.useState("")
 
+  React.useEffect(() => {
+    setRespondMessage(messageRes)
+  }, [messageRes])
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -27,8 +31,8 @@ const MessageSnackbar = ({  isAlert, setIsAlert }) => {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar open={isAlert} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-          Tanggal sudah ada!
+        <Alert onClose={handleClose} severity={type} sx={{ width: '100%', fontSize: '1.5rem' }}>
+          {messageRes}
         </Alert>
       </Snackbar>
       {/* <Alert severity="error">This is an error message!</Alert>

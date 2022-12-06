@@ -86,12 +86,21 @@ export const cutArray = (arr, numLength) => {
 }
 
 // find the right date
-export const findDate = ( exactDate, arrDate ) => {
-    let dateToFind = formattingDate(exactDate, 'ymd');
+export const findDate = ( arrDate, isToday=true ) => {
+    let dateToFind = formattingDate(new Date(), 'ymd');
     let tempArr = [...arrDate];
-    
-    // tempArr.map((date) => console.log(formattingDate(new Date((date.openDate)), 'ymd')));
-    let findDateData = tempArr.filter((obj) => dateToFind === formattingDate(new Date((obj.openDate)), 'ymd'));
+    let findDateData;
+
+    if(isToday){
+        findDateData = tempArr.filter((obj) => dateToFind === formattingDate(new Date((obj.openDate)), 'ymd'));
+    } else {
+        let tempDateArr = tempArr.filter((obj) => dateToFind < formattingDate(new Date((obj.openDate)), 'ymd'));
+        if(tempDateArr.length > 0){
+            findDateData = [...tempDateArr]
+        } else {
+            findDateData = tempArr.filter((obj) => dateToFind === formattingDate(new Date((obj.openDate)), 'ymd'));
+        }
+    }
 
     return findDateData
 }
@@ -100,7 +109,6 @@ export const findDate = ( exactDate, arrDate ) => {
 export const findDateIndex = ( exactDate, arrDate ) => {
     let dateToFind = formattingDate(exactDate, 'ymd');
     let tempArr = [...arrDate];
-    
     let dateArr = tempArr.map((obj) => formattingDate(new Date((obj.openDate)), 'ymd'));
     let dateIndex = dateArr.indexOf(dateToFind)
 

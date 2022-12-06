@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR } from  '../constants/actionTypes';
+import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR, GET_OPENING_MESSAGE, UPDATE_MESSAGE, UPDATE_SETUP } from  '../constants/actionTypes';
 
 // import functions
 import { sortDateArr, cutArray } from '../utils/utils';
@@ -42,7 +42,6 @@ export const updateDate = (dateForm, id) => async (dispatch) => {
     try {
         const { data } = await api.updateDate(dateForm, id);
         dispatch({ type: UPDATE_DATE, payload: data });
-        dispatch({ type: RESET })
     } catch (error) {
         console.log(error)
         dispatch({ type: ERROR, payload: error.response });
@@ -72,7 +71,7 @@ export const handleResizeScreen = (screenSize) => (dispatch) => {
     dispatch({ type: RESIZE_SCREEN, payload: screenSize })
 }
 
-// get setup
+// get setup template
 export const getSetup = (id) => async (dispatch) => {
     try {
         const { data } = await api.fetchSetup(id);
@@ -80,5 +79,35 @@ export const getSetup = (id) => async (dispatch) => {
     } catch (error) {
         console.log(error);
         dispatch({ type: ERROR, payload: error.response });
+    }
+}
+
+// update setup Template
+export const updateSetupTemplate = (setupForm, id) => async (dispatch) =>{
+    try {
+        const { data } = await api.updateSetup(setupForm, id);
+        dispatch({  type: UPDATE_SETUP, payload: data })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// get opening message
+export const getOpeningMessage = (id) => async (dispatch) => {
+    try {
+        const { data } = await api.fetchMessage(id);
+        dispatch({  type: GET_OPENING_MESSAGE, payload: data })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// update opening message
+export const updateOpeningMessage = (messageForm, id) => async (dispatch) =>{
+    try {
+        const { data } = await api.updateMessage(messageForm, id);
+        dispatch({  type: UPDATE_MESSAGE, payload: data })
+    } catch (error) {
+        console.log(error)
     }
 }

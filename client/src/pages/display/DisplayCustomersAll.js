@@ -38,16 +38,16 @@ const DisplayCustomersAll = () => {
       let dateNow = new Date();
       dateNow.setDate(dateNow.getDate() + 1);
 
-      let dateData = findDate(dateNow, dates)
-      console.log(dateData)
-
+      let dateData = findDate(dates, false)
       let tempArr, dateIndex;
+      
       if(dateData.length > 0){
         tempArr = arrangeArr(dateData[0])
-        dateIndex = findDateIndex(dateNow, dates)
+        dateIndex = findDateIndex(new Date(dateData[0].openDate), dates)
       } else {
-        tempArr = arrangeArr(dates[0])
-        dateIndex = 0
+        let datesLength = dates.length;
+        dateIndex = datesLength - 1
+        tempArr = arrangeArr(dates[dateIndex])
       }
 
       setIsDataAll(true)

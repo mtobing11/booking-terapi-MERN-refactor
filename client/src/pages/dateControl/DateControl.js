@@ -39,7 +39,7 @@ const DateControl = () => {
   }
   
   return (
-    <Paper elevation={1} sx={{ m: '0.75rem', py: '0.5rem',  px: '1.5rem',borderRadius: '1.5rem' }}>
+    <Paper elevation={1} sx={{ m: '0.75rem', py: '0.5rem',  px: '1.5rem', borderRadius: '1.5rem' }}>
         <Header category="Page" title="Date Control" />
         <Grid container spacing={2}>
           <Grid item xs={4}>
