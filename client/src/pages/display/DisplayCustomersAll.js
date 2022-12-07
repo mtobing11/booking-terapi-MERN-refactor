@@ -46,6 +46,7 @@ const DisplayCustomersAll = () => {
         dateIndex = findDateIndex(new Date(dateData[0].openDate), dates)
       } else {
         let datesLength = dates.length;
+        console.log(datesLength);
         dateIndex = datesLength - 1
         tempArr = arrangeArr(dates[dateIndex])
       }
@@ -63,8 +64,8 @@ const DisplayCustomersAll = () => {
 
   const arrangeArr = (obj) => {
     let resultArr = [];
-    let shiftLength = obj.shifts;
-
+    let shiftLength = obj.shifts > 3 ? 3 : obj.shift;
+    
     for (let i = 0; i < shiftLength; i++){
       let currShift = `customersShift${i+1}`;
       let tempArr = makeNewArrObject(obj[currShift], ['name', 'cellphone', 'bookedAt'], obj.openDate,`shift${i+1}`);

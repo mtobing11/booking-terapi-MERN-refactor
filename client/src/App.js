@@ -9,7 +9,8 @@ import DateControl from './pages/dateControl/DateControl';
 import DisplayCustomersToday from './pages/display/DisplayCustomersToday';
 import DisplayCustomersAll from './pages/display/DisplayCustomersAll';
 import OpeningMessage from './pages/openingMessage/OpeningMessage';
-import SetupTemplate from './pages/setupTemplate/SetupTemplate'
+import SetupTemplate from './pages/setupTemplate/SetupTemplate';
+import Auth from './pages/auth/Auth';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
             <Route path='messagecontrol' element={<OpeningMessage />} />
             <Route path='setuptemplate' element={<SetupTemplate />} />
         </Route>
+        <Route path='/auth' element={<Auth />} />
       </Routes>
     </BrowserRouter>
   );

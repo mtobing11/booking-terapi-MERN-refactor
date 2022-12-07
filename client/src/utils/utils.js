@@ -120,15 +120,17 @@ export const makeNewArrObject = (oldArr, goalArr, date, shift) => {
 
     let arr = oldArr.map((cust, idx) => {
         
-        function newArr(obj){
-            return goalArr.map((val) => obj[val])
-        }
-        
         let tempArr = newArr(cust)
         let formattedDate = formattingDate(new Date(date), 'dmmy')
         
         return [formattedDate, tempArr[0], tempArr[1], shift, idx+1, formattingDate(new Date(tempArr[2]))]
     })
+    
+    function newArr(obj){
+        let temporaryArr = goalArr.map((val) => obj[val])
+        console.log(temporaryArr)
+        return temporaryArr
+    }
 
     return arr;
 }

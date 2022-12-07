@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 // import components`
 import { Typography, Paper, Button, Tooltip } from '@mui/material';
+import ConfirmationDialog from './ConfirmationDialog';
 import HomeIcon from '@mui/icons-material/Home';
 import CloseIcon from '@mui/icons-material/Close';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 // import actions
 import { handleActiveMenu } from '../../actions/dashboardAct';
@@ -25,8 +27,11 @@ const normalLinkStyle = {
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const contentRef = useRef();
   const [activeLink, setActiveLink] = useState(activeLinkStyle);
   const [normalLink, setNormalLink] = useState(normalLinkStyle);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const activeMenu = useSelector((state) => state.dashboard.activeMenu);
   const screenSize = useSelector((state) => state.dashboard.screenSize);
 
@@ -34,6 +39,12 @@ const Sidebar = () => {
     if(activeMenu && screenSize <= 900){
       dispatch(handleActiveMenu(false))
     }
+  }
+
+  const handleSubmit = () => {
+    setDialogOpen(false);
+    dispatch({ type: 'LOGOUT' });
+    navigate('/auth');
   }
 
   return (
@@ -67,7 +78,17 @@ const Sidebar = () => {
               ))}
             </Paper>
           </div>
-          <Typography align="center" variant="body2" sx={{fontSize: '0.7rem'}}>dashboard ver 1.1.1</Typography>
+          <div>
+            {/* <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <Button align='right'>
+                <span style={{ width: '30px' }}><LogoutIcon /></span>
+                <Typography>Log out</Typography>
+              </Button>
+            </div> */}
+            <ConfirmationDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} handleSubmit={handleSubmit} contentArr={["Anda ingin logout?"]} 
+            isLogout={true} />
+            <Typography align="center" variant="body2" sx={{fontSize: '0.7rem'}}>dashboard ver 1.1.1</Typography>
+          </div>
         </div>
       )}
     </Paper>

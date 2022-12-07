@@ -12,3 +12,6 @@ export const UPDATE_SETUP = 'UPDATE_SETUP';
 
 export const GET_OPENING_MESSAGE = 'GET_OPENING_MESSAGE';
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
+
+export const AUTH = 'AUTH';
+export const LOGOUT = 'LOGOUT';

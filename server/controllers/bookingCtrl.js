@@ -14,7 +14,8 @@ export const makeReservation = async (req, res) => {
         if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Tanggal belum dibuka!");
 
         const dateToBook = await OpenDate.findById(id)
-        if(!dateToBook) return res.status(404).json({ message: 'Tanggal tersbut ditutup!' })
+        if(!dateToBook) return res.status(404).json({ message: 'Tanggal tersebut ditutup!' })
+        if(!dateToBook.status) return res.status(404).json({ message: 'Tanggal tersebut sudah ditutup!' })
 
         const shiftCurrStatus = dateToBook.shiftsStatus[shift - 1];
         if(!shiftCurrStatus) return res.status(404).json({ message: 'Jam ini sudah penuh!' })

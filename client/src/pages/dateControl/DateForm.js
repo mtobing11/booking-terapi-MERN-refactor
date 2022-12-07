@@ -101,7 +101,7 @@ const DateForm = () => {
             </LocalizationProvider>
             <TextField name="shifts" label="Jumlah Shift" type="number" min={1} max={3} value={dateForm.shifts} required={true} size="small"
                 InputLabelProps={{ shrink: true, }}  sx={{ my: '1rem' }} autoFocus={true} inputRef={editRef}
-                onChange={ (e)=> setDateForm({ ...dateForm, shifts: e.target.value }) } 
+                onChange={ (e)=> setDateForm({ ...dateForm, shifts: e.target.value > 3 ? 3 : e.target.value }) } 
             />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {shiftArr.map((shift, idx) => idx < 3 ? (

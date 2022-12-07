@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-// import decode from 'jwt-decode';
+import decode from 'jwt-decode';
 
 // import components
 import Sidebar from './Sidebar';
@@ -15,6 +15,9 @@ const Dashboard = () => {
   const setupID = '6389fb5de854b4cbe464673e';
   const messageID = '6389ddb77c2dcd80c33b3655';
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const [isAlert, setIsAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [resMessage, setResMessage] = useState('');
@@ -23,10 +26,29 @@ const Dashboard = () => {
   const successResponse = useSelector((state) => state.dashboard?.success);
 
   useEffect(() => {
-    dispatch(getAllDates());
-    dispatch(getSetup(setupID));
-    dispatch(getOpeningMessage(messageID));
+    if(!user){
+      console.log('logout automatically');
+      navigate('/auth');
+    }
+    if(user){
+      dispatch(getAllDates());
+      dispatch(getSetup(setupID));
+      dispatch(getOpeningMessage(messageID));
+    }
+    
   }, [])
+
+  useEffect(() => {
+      const token = user?.token;
+      if(token) {
+          const decodedToken = decode(token);
+          if(decodedToken.exp * 1000 < new Date().getTime()) logout()
+      }
+
+      setUser(JSON.parse(localStorage.getItem('profile')))
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location])
 
   useEffect(() => {
     if(errorResponse){
@@ -40,6 +62,12 @@ const Dashboard = () => {
       setIsSuccess(true)
     }
   }, [errorResponse, successResponse])
+
+  const logout = () => {
+    dispatch({ type: 'LOGOUT' });
+    navigate('/auth');
+    setUser(null)
+  }
   
   return (
     <div style={{ position: 'relative', display: 'flex', backgroundColor: 'rgb(248 250 252)'}}>
