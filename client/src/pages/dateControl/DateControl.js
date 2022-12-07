@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // import components
 import { Paper, Grid } from '@mui/material';
@@ -11,9 +11,6 @@ import TableForDisplay from '../../components/dashboard/TableForDisplay';
 import { formattingDate } from '../../utils/utils';
 
 const DateControl = () => {
-  const dispatch = useDispatch();
-  let id = '638ab34862bf8b925ca25846';
-  // const dateForm = {newDate: '2022-12-4', creator: 'react', capacity: 12, shifts: 2, schedules: ['8:00 - 10:00', '11:30 - 14:30'], bookingLimit: 5}
   const tableHeadArr = ['Tanggal', 'Total Shift', 'Jam Operasional', 'Capacity/shift', 'Max/HP', 'Status']
   const [tableContentArr, setTableContentArr] = useState([])
   const dates = useSelector((state) => state.dashboard?.dates);

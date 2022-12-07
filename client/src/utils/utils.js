@@ -128,7 +128,6 @@ export const makeNewArrObject = (oldArr, goalArr, date, shift) => {
     
     function newArr(obj){
         let temporaryArr = goalArr.map((val) => obj[val])
-        console.log(temporaryArr)
         return temporaryArr
     }
 

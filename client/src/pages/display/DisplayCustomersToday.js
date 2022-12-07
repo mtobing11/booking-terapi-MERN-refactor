@@ -46,7 +46,7 @@ const DisplayCustomersToday = () => {
 
   const arrangeArr = (obj) => {
     let resultArr = [];
-    let shiftLength = obj.shifts;
+    let shiftLength = obj.shifts > 3 ? 3 : obj.shifts;
 
     for (let i = 0; i < shiftLength; i++){
       let currShift = `customersShift${i+1}`;

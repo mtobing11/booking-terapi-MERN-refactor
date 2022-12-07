@@ -24,8 +24,8 @@ const ModifyMenu = ({ id, data }) => {
     switch(myValue){
         case 'edit':
             return dispatch(handleDataToEdit(id))
-        case 'close': {
-            let obj = { ...data, status: false}
+        case 'open-close': {
+            let obj = { ...data, status: !data.status}
             return dispatch(updateDate(obj, id))
         }
         case 'delete':
@@ -56,7 +56,7 @@ const ModifyMenu = ({ id, data }) => {
         </Button>
         <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose} MenuListProps={{ 'aria-labelledby': 'basic-button', }}>
             <MenuItem data-my-value="edit" onClick={(e) => handleClose(e)}>Edit</MenuItem>
-            <MenuItem data-my-value="close" onClick={(e) => handleClose(e)}>Close</MenuItem>
+            <MenuItem data-my-value="open-close" onClick={(e) => handleClose(e)}>{data.status ? "Close" : "Open"}</MenuItem>
             <MenuItem data-my-value="delete" onClick={(e) => handleClose(e)}>Delete</MenuItem>
         </Menu>
     </>

@@ -21,6 +21,8 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  
+  const user = JSON.parse(localStorage.getItem('profile'))
   const [screenSize, setScreenSize] = useState(window.innerWidth)
   const activeMenu = useSelector((state) => state.dashboard.activeMenu)
 
@@ -55,8 +57,7 @@ const Navbar = () => {
             <Avatar />
             <div style={{ display: 'flex' }}>
               <Typography sx={{mr: '0.25rem'}} variant="body2" align="center">Hi</Typography>
-              <Typography variant="body2" align="center">Martin</Typography>
-              {/* <Typography variant="body2" align="center">{user?.userData?.name}</Typography> */}
+              <Typography variant="body2" align="center">{user?.userData?.name}</Typography>
             </div>
           </div>
         </Tooltip>

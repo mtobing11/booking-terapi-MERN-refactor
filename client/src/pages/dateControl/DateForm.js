@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 
 // import components
-import { Paper, Typography, TextField, Box } from '@mui/material';
+import { Paper, Typography, TextField, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -15,7 +15,7 @@ import { openNewDate, updateDate } from '../../actions/dashboardAct';
 
 // functions
 import { formattingDate, setupShitsStatus, cutArray } from '../../utils/utils';
-const initialSetup = { capacity: 0, bookingLimit: 1, shifts: 0, schedules: [], shiftsStatus: []}
+const initialSetup = { status: true, capacity: 0, bookingLimit: 1, shifts: 0, schedules: [], shiftsStatus: []}
 
 const DateForm = () => {
   const maxShift = 3;
@@ -84,7 +84,7 @@ const DateForm = () => {
     dateNow.setDate(dateNow.getDate() + 1);
     if(setup){
       let shiftsStatus = setupShitsStatus(setup.shifts, maxShift);
-      setDateForm({...setup, openDate: moment(new Date(dateNow)), shiftsStatus: shiftsStatus});
+      setDateForm({...setup, openDate: moment(new Date(dateNow)), shiftsStatus: shiftsStatus, status: true});
     }
   }
 
@@ -119,6 +119,18 @@ const DateForm = () => {
                   onChange={(e)=> setDateForm({ ...dateForm, bookingLimit: e.target.value })} InputLabelProps={{ shrink: true, }} 
                   sx={{ my: '1rem', width: '100%' }}
             />
+            <Box sx={{ width: 1, maxWidth: '200px', mb: '1rem' }}>
+                <FormControl fullWidth>
+                    <InputLabel id="status" size="small">Open / Close</InputLabel>
+                    <Select
+                        labelId="status" name="status" id="statusId" required={true} size="small"
+                        value={dateForm.status} label="Open / Close" onChange={(e)=>setDateForm({ ...dateForm, status: e.target.value })}
+                    >
+                    <MenuItem value={true}>Open Date</MenuItem>
+                    <MenuItem value={false}>Close Date</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
         </form>
         <ConfirmationDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} handleSubmit={handleSubmit} contentArr={contentRef.current}/>
     </Paper>
