@@ -7,7 +7,7 @@ import { Paper, Typography, TextField, Box, FormControl, InputLabel, Select, Men
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import ConfirmationDialog from '../../components/dashboard/ConfirmationDialog';
+import ConfirmationDialog from '../../components/dashboard/dialogs/ConfirmationDialog';
 // import MessageSnackbar from '../../components/dashboard/MessageSnackbar';
 
 // import actions

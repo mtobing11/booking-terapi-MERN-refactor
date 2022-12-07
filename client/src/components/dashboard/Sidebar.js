@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 // import components`
 import { Typography, Paper, Button, Tooltip } from '@mui/material';
-import ConfirmationDialog from './ConfirmationDialog';
+import ConfirmationDialog from './dialogs/ConfirmationDialog';
 import HomeIcon from '@mui/icons-material/Home';
 import CloseIcon from '@mui/icons-material/Close';
 
