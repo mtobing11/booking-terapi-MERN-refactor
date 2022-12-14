@@ -66,7 +66,13 @@ export const makeReservation = async (req, res) => {
         
         if (!slot) return res.status(404).json({ message: 'Jam ini sudah penuh!' })
 
-        console.log("Booked success");
+        // check if already full, then close the date schedule
+        const isThereSlotArr = await SlotInAShift.find({ $and: [{ scheduleId: id }, { available: true }] })
+        
+        if(isThereSlotArr.length <= 0){
+            await TherapySchedule.findByIdAndUpdate(id, { status: false})
+            console.log(`Date is closed at ${formatDate(new Date(), 'ymd-fulltime')}`)
+        }
 
         // Create ticket
         const ticket =  await TicketForTherapy.create([{

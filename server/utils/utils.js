@@ -1,8 +1,18 @@
 export const formatDate = (date, arrFormat) => {
+    function addZeroToDate(num){
+        if (num <=9){
+            return "0" + num;
+        }
+        return num
+    }
+
     let d = new Date(date),
         month = '' + d.getMonth(),
         day = '' + d.getDate(),
-        year = d.getFullYear();
+        year = d.getFullYear(),
+        hour = addZeroToDate(d.getHours()),
+        minute = addZeroToDate(d.getMinutes()),
+        second = addZeroToDate(d.getSeconds())
 
         let monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -11,6 +21,11 @@ export const formatDate = (date, arrFormat) => {
             case 'dmmmy':{
                 newDate = [day, monthName[month], year].join(' ');
                 return new Date(newDate)
+            }
+             case 'ymd-fulltime': {
+                let formatDate = [year, month, day].join("-");
+                let formatTime = [hour, minute, second].join(":");
+                return [formatDate, formatTime].join(' ');
             }
             default: {
                 newDate = [year, Number(month)+1, day].join('-')

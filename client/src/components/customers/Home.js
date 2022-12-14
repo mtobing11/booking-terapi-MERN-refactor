@@ -9,7 +9,7 @@ import image from '../../data/tketok_2.svg';
 
 const Home = () => {
   const whatsappLink = "https://api.whatsapp.com/send?phone=6281299098724&amp;text=Halo%20Terapi%20Ketok%20Mr.Kevin%20";
-  const openingMessageID = '63736bef3dda6cf66d20d536';
+  const openingMessageID = '6399a64319f6e07e02575324';
 
   return (
     <Grow in>
