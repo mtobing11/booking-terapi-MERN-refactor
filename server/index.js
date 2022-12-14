@@ -25,9 +25,9 @@ app.use('/user', userRoutes);
 app.use('/booking', bookingRoutes);
 
 app.get('/', (req, res) => {
-    res.semd(`APP VERSION ${version} IS RUNNING`)
+    res.semd(`APP VERSION ${version} IS RUNNING`);
 })
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI2, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => app.listen(PORT, () => console.log(`Server is running at port: ${PORT}`)))
         .catch(err => console.error(err))

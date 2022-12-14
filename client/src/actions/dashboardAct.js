@@ -19,9 +19,23 @@ export const getAllDates = () => async (dispatch) => {
 export const openNewDate = (dateForm) => async (dispatch) => {
     console.log("open date action");
     dateForm.schedules = cutArray(dateForm.schedules, dateForm.shifts)
+
+    let tryout = {
+        openDate: "2022-12-13",
+        creator: "Postman",
+        status: true,
+        bookingLimit: 5,
+        shifts: 3,
+        schedules: [
+            { shiftName: 'shift1', schedule: '08:00-10:00', quota: 2 },
+            { shiftName: 'shift2', schedule: '12:00-14:00', quota: 2 },
+            { shiftName: 'shift3', schedule: '16:00-18:00', quota: 2 }
+        ]
+    }
     
     try {
-        const { data } = await api.createNewDate(dateForm);
+        const { data } = await api.createNewDate(tryout);
+        // const { data } = await api.createNewDate(dateForm);
         dispatch({ type: NEW_DATE, payload: data });
     } catch (error) {
         console.log(error)
@@ -39,8 +53,22 @@ export const updateDate = (dateForm, id) => async (dispatch) => {
     console.log("update date");
     dateForm.schedules = cutArray(dateForm.schedules, dateForm.shifts);
 
+    let tryout = {
+        id: "639901bb0060c7efbd97e9af",
+        creator: "Postman",
+        status: true,
+        bookingLimit: 2,
+        shifts: 2,
+        schedules: [
+            { shiftName: 'shift1', schedule: '08:00-10:00', quota: 2 },
+            { shiftName: 'shift2', schedule: '12:00-14:00', quota: 2 },
+            { shiftName: 'shift3', schedule: '12:00-14:00', quota: 3 },
+        ]
+    }
+
     try {
-        const { data } = await api.updateDate(dateForm, id);
+        const { data } = await api.updateDate(tryout, id);
+        // const { data } = await api.updateDate(dateForm, id);
         dispatch({ type: UPDATE_DATE, payload: data });
     } catch (error) {
         console.log(error)

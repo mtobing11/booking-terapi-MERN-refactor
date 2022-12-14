@@ -19,6 +19,15 @@ export const formatDate = (date, arrFormat) => {
         }
 }
 
+// get tomorrow date
+export const getTomorrowDate = () => {
+    let today = new Date();
+    today.setDate(today.getDate()+1);
+
+    let nextDay = formatDate(today);
+    return nextDay;
+}
+
 // check how many times already booked
 export const checkPhoneLimit = (dateData, cellphone) => {
     let count = 0;
@@ -44,3 +53,69 @@ export const checkCapacity = (dateData, shift) => {
     }
     return false;
 }
+// find the bookingid
+export const getBookingIdInArr = (oldArr, newArr) => {
+    let bookId = []
+    
+    newArr.map((id) => {
+        if(oldArr.indexOf(id) < 0){
+            bookId.push(id)
+        }
+    })
+    return bookId;
+}
+
+// find the bookingid
+export const getBookingId = (arrBookId, dateObj, cellphone) => {
+    let findData = []
+    let findIndex = [];
+    let shiftLength = dateObj.shifts;
+    
+    for(let i = 0; i < shiftLength; i++) {
+        let shiftNum = i + 1
+        let currShift = dateObj[`customersShift${shiftNum}`];
+        
+        for (let j = 0; j < arrBookId.length; j++){
+            let tempArrBookingId =currShift.map((cust) => cust._id.toString());
+            let tempIndex = tempArrBookingId.indexOf(arrBookId[j]);
+            
+            if(tempIndex > -1){
+                findIndex.push(tempIndex);
+                findData.push(currShift[tempIndex]);
+            }
+        }
+    }
+
+    if(findIndex.length > 0){
+        return [findIndex, findData]
+    }
+    return [null, null]
+}
+
+// find the bookingid
+// export const getBookingId = (bookingId, dateObj) => {
+//     let findData;
+//     let findIndex = -1;
+//     let shiftLength = dateObj.shifts;
+//     let shift1 = [], shift2 = [], shift3 = [];
+    
+//     for(let i = 0; i < shiftLength; i++) {
+//         let shiftNum = i + 1
+//         let currShift = dateObj[`customersShift${shiftNum}`];
+        
+//         let tempArrBookingId =currShift.map((cust) => cust._id.toString());
+//         let tempIndex = tempArrBookingId.indexOf(bookingId)
+
+//         if(tempIndex > -1){
+//             findIndex = tempIndex;
+//             findData = currShift[tempIndex];
+//         }
+//     }
+
+//     if(findIndex > -1){
+//         return [findIndex, findData]
+//     }
+//     return [null, null]
+// }
+
+

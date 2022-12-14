@@ -14,6 +14,11 @@ export const createNewDate = (dateForm) => API.post('/dashboard/dates/new', date
 export const updateDate = (dateForm, id) => API.patch(`/dashboard/dates/${id}`, dateForm);
 export const deleteDate = (id) => API.delete(`/dashboard/dates/${id}`);
 
+export const fetchAvailableDates = () => API.get('/booking/dates/open1');
+export const makeReservation = (id, reservationForm) => API.patch(`/booking/date/${id}`, reservationForm);
+export const fetchDataCustomer = (dateId, arrCustomerId, cellphone) => API.get(`/booking/date/${dateId}/dataQuery?arrIds=${arrCustomerId}&cellphone=${cellphone}`);
+// export const fetchDataCustomer = (dateId, customerId) => API.get(`/booking/date/${dateId}/${customerId}`);
+
 export const fetchMessage = (id) => API.get(`/dashboard/message/${id}`);
 export const createNewMessage = (messageForm) => API.post('/dashboard/message/new', messageForm);
 export const updateMessage = (messageForm, id) => API.patch(`/dashboard/message/${id}`, messageForm);

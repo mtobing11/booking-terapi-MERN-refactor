@@ -25,6 +25,7 @@ export const openNewDate = async (req, res) => {
 
     const { openDate } = req.body;
     
+    let bookingList = [];
     let beginDate = formatDate(openDate, 'dmmmy');
     let endDate = formatDate(openDate, 'dmmmy');
     endDate.setDate(beginDate.getDate() + 1);
@@ -34,8 +35,25 @@ export const openNewDate = async (req, res) => {
         if(arrDates.length > 0) return res.status(404).json({ message: 'Date already exist' })
 
         const { creator, capacity, shifts, schedules, shiftsStatus, bookingLimit, status } = req.body;
+
+        for (let i = 0; i < shifts; i++){
+            switch(i){
+                case 0:
+                    bookingList.push({ shift1: []});
+                    break;
+                case 1:
+                    bookingList.push({ shift2: []});
+                    break;
+                case 2:
+                    bookingList.push({ shift3: []});
+                    break;
+                default:
+                    null;
+                    break
+            }
+        }
         
-        const newObjDate = await OpenDate({ openDate: new Date(openDate).toISOString(), createdAt: new Date(), creator, capacity, shifts, schedules, shiftsStatus, bookingLimit, status })
+        const newObjDate = await OpenDate({ openDate: new Date(openDate).toISOString(), createdAt: new Date(), creator, capacity, shifts, schedules, shiftsStatus, bookingLimit, status, bookingList })
         
         await newObjDate.save()
         res.status(201).json(newObjDate)
@@ -75,7 +93,7 @@ export const updateExistingDate = async (req, res) => {
     }
 }
 
-// update existing date
+// delete existing date
 export const deleteDate = async (req, res) => {
     console.log("Delete a Date");
     

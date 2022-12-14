@@ -13,5 +13,10 @@ export const UPDATE_SETUP = 'UPDATE_SETUP';
 export const GET_OPENING_MESSAGE = 'GET_OPENING_MESSAGE';
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
 
+export const GET_OPEN_DATES = 'GET_OPEN_DATES';
+export const CREATE_TICKET = 'CREATE_TICKET';
+export const RESET_CUSTOMER = 'RESET_CUSTOMER';
+export const ERROR_CUSTOMER = 'ERROR_CUSTOMER';
+
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
