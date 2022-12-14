@@ -92,6 +92,26 @@ export const getBookingId = (arrBookId, dateObj, cellphone) => {
     return [null, null]
 }
 
+// sort an array of objects
+export const sortArrOfObjects = (arr, prop) => {
+    let newArr = [...arr];
+    
+    function compare(a, b){
+        let dateA = new Date(a[prop]);
+        let dateB = new Date(b[prop]);
+
+        if (dateA < dateB){
+            return -1
+        }
+        if (dateA > dateB){
+            return 1
+        }
+        return 0
+    }
+
+    return newArr.sort(compare)
+}
+
 // find the bookingid
 // export const getBookingId = (bookingId, dateObj) => {
 //     let findData;

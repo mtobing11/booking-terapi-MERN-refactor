@@ -129,7 +129,7 @@ export const createNewPlaceForMessage = async (req, res) => {
 // update existing message
 export const updateMessage = async (req, res) => {
     console.log("Update Message");
-    // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
 
     const { id } = req.params;
     const { message, duration, isDuration, creator, status } = req.body;
@@ -171,7 +171,7 @@ export const getMessage = async (req, res) => {
 // create new setup
 export const createNewPlaceForSetup = async (req, res) => {
     console.log("Create New Place 4 Setupe");
-    // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
 
     const { capacity, bookingLimit, shifts, schedules } = req.body;
     const newSetup = await Setup({ capacity, bookingLimit, shifts, schedules });
@@ -186,7 +186,7 @@ export const createNewPlaceForSetup = async (req, res) => {
 // update setup
 export const updateSetup = async (req, res) => {
     console.log("Update setup");
-    // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
 
     const { id } = req.params;
     const { capacity, bookingLimit, shifts, schedules } = req.body;

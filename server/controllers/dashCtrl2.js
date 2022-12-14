@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import TherapySchedule from '../models/scheduleModel.js';
 import SlotInAShift from '../models/slotModel.js';
+import TicketForTherapy from '../models/ticketModel.js';
 
 // import functions
 import { formatDate } from '../utils/utils.js';
@@ -20,7 +21,7 @@ export const getAllDates2 = async (req, res) => {
 // open new date
 export const openNewDate2 = async (req, res) => {
     console.log("Open new Date");
-    // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
 
     const body = req.body;
     const openDate = body.openDate;
@@ -33,7 +34,7 @@ export const openNewDate2 = async (req, res) => {
     try {
         const arrDates = await TherapySchedule.find({ $and: [{ openDate: { $gte: beginDate, $lt: endDate } }]});
         if(arrDates.length > 0) return res.status(404).json({ message: 'Date already exist' });
-        
+
         schedules.map((shift) => {
             var id = new mongoose.Types.ObjectId();
             shift._id = id;
@@ -165,8 +166,9 @@ export const deleteSchedule = async (req, res) => {
         if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Slot tidak ada");
         await TherapySchedule.findByIdAndRemove(id);
         await SlotInAShift.deleteMany({ scheduleId: id });
+        await TicketForTherapy.deleteMany({ scheduleId: id });
 
-        res.json({ message: "Tanggal dan semua slot berhasil di hapus" , type: "success_data"})
+        res.json({ message: "Tanggal, semua slot, semua ticket berhasil di hapus" , type: "success_data"})
     } catch (error) {
         console.log(error)
     }

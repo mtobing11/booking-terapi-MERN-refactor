@@ -6,6 +6,7 @@ const slotSchema = mongoose.Schema({
     seatNumber: { type: Number, required: true },
     available: { type: Boolean, default: true },
     bookedBy: { type: String, default: null },
+    phone: { type: Number, default: null },
 });
 
 const slotInAShift = mongoose.model('slotInAShift', slotSchema);

@@ -127,6 +127,23 @@ export const cutArray = (arr, numLength) => {
     return newArr;
 }
 
+// manage the schedule
+export const arrangeSchedules = (dateForm) => {
+    let schedules = [];
+    let shifts = dateForm.shifts;
+
+    dateForm.schedules.map((shift, idx) => {
+        let tempObj = {
+            shiftName: `shift${idx+1}`,
+            schedule: shift,
+        }
+        tempObj['quota'] = idx < shifts ? parseInt(dateForm.capacity) : 0;
+        return schedules.push(tempObj)
+    })
+
+    return schedules;
+}
+
 // find the right date
 export const findDate = ( arrDate, isToday=true ) => {
     let dateToFind = formattingDate(new Date(), 'ymd');

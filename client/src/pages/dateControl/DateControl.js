@@ -27,7 +27,11 @@ const DateControl = () => {
     for (let i = 0; i < arrLength; i++){
       let currData = dates[i];
       let tempStatus = currData.status ? 'open' : 'closed'; 
-      let tempArr = [formattingDate(new Date(currData.openDate), 'dmmy-time'), currData.shifts, currData.schedules.join(' // '), currData.capacity, currData.bookingLimit, tempStatus, currData._id]
+      let shiftsSchedule = currData.schedules.map((shift, idx) => {
+        if(idx < currData.shifts) return shift.schedule
+      });
+      let shiftsQuota = currData.schedules.map(shift => shift.quota);
+      let tempArr = [formattingDate(new Date(currData.openDate), 'dmmy-time'), currData.shifts, shiftsSchedule.join(' // '), shiftsQuota.join(' / '), currData.bookingLimit, tempStatus, currData._id]
 
       arr.push(tempArr)
     }

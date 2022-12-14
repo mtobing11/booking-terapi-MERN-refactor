@@ -1,18 +1,19 @@
 import mongoose from 'mongoose';
 import OpenDate from '../models/dateModel.js';
 import Message from '../models/messageModel.js';
+import TherapySchedule from '../models/scheduleModel.js';
+import SlotInAShift from '../models/slotModel.js';
+import TicketForTherapy from '../models/ticketModel.js'
 
 // import functions
-import { checkPhoneLimit, checkCapacity, formatDate, getTomorrowDate, getBookingId, getBookingIdInArr } from '../utils/utils.js';
+import { checkPhoneLimit, checkCapacity, formatDate, getTomorrowDate, getBookingId, getBookingIdInArr, sortArrOfObjects } from '../utils/utils.js';
 
-// get available dates
 export const getDates = async (req, res) => {
     console.log("a customer open the app");
-
     let nextDay = getTomorrowDate()
     
     try {
-        const arrDates = await OpenDate.find({ $and: [{ openDate: {$gt: nextDay} }, { status: true }] })
+        const arrDates = await TherapySchedule.find({ $and: [{ openDate: {$gt: nextDay} }, { status: true }] })
         res.json(arrDates)
     } catch (error) {
         console.log(error)
@@ -22,97 +23,62 @@ export const getDates = async (req, res) => {
 // First step: make reservation
 export const makeReservation = async (req, res) => {
     const { id } = req.params
-    const { name, cellphone, shift } = req.body;
+    const { name, cellphone, shiftId } = req.body;
+
+    console.log(`${name}-${cellphone} trying to get a reservation`);
 
     try {
         if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Tanggal belum dibuka!");
+        if(!mongoose.Types.ObjectId.isValid(shiftId)) return res.status(404).send("Shift sudah ditutup!");
 
-        const dateToBook = await OpenDate.findById(id)
-        if(!dateToBook) return res.status(404).json({ message: 'Tanggal tersebut ditutup!' })
-        if(!dateToBook.status) return res.status(404).json({ message: 'Tanggal tersebut sudah ditutup!' })
+        const openDate = await TherapySchedule.findById(id)
+        if(!openDate) return res.status(404).json({ message: 'Tanggal tersebut ditutup!' })
+        if(!openDate.status) return res.status(404).json({ message: 'Tanggal tersebut sudah ditutup!' })
 
-        const shiftCurrStatus = dateToBook.shiftsStatus[shift - 1];
-        if(!shiftCurrStatus) return res.status(404).json({ message: 'Jam ini sudah penuh!' })
-
-        let isPhoneLimit = checkPhoneLimit(dateToBook, cellphone);
-        if(!isPhoneLimit) return res.status(404).json({ message: 'Maaf nomer ini tidak bisa melakukan booking lagi di tanggal tersebut' })
-
-        let isNotFull = checkCapacity(dateToBook, shift)
-        if(!isNotFull) return res.status(404).json({ message: 'Maaf jam ini sudah penuh'})
-
-        let destinationShift = `customersShift${shift}`;
+        const isPhoneRegisteredInSameDay = await TicketForTherapy.find({ $and: [{ scheduleId: id }, { phone: cellphone }]})
+        if(isPhoneRegisteredInSameDay.length >= openDate.bookingLimit) return res.status(404).json({ message: 'No HP ini sudah terdaftar!' })
         
-        let newObj = {name, cellphone, shift, bookedAt: new Date().toISOString()};
-
-        dateToBook[destinationShift].push(newObj)
-        console.log(`${name}-${cellphone} trying to get a reservation`);
-
-
-        if(dateToBook[destinationShift].length >= dateToBook.capacity && dateToBook.shiftsStatus[shift - 1] === true){
-            dateToBook.shiftsStatus[shift - 1] = false;
-
-            if(dateToBook.shiftsStatus.every((bool) => bool === false)){
-                dateToBook.status = false;
-                console.log('Full, date close at:', new Date());
-            }
-        }
-
-        let updatedDate;
-
-        switch(shift){
-            case 1: {
-                updatedDate = await OpenDate.findByIdAndUpdate(id, { 
-                    $push: { customersShift1: newObj},
-                    shiftsStatus: dateToBook.shiftsStatus,
-                    status: dateToBook.status
-                }, {new: true});
-                break;
-            }
-            case 2: {
-                updatedDate = await OpenDate.findByIdAndUpdate(id, { 
-                    $push: { customersShift2: newObj},
-                    shiftsStatus: dateToBook.shiftsStatus,
-                    status: dateToBook.status
-                }, {new: true});
-                break;
-            }
-            case 3: {
-                updatedDate = await OpenDate.findByIdAndUpdate(id, { 
-                    $push: { customersShift3: newObj},
-                    shiftsStatus: dateToBook.shiftsStatus,
-                    status: dateToBook.status
-                }, {new: true});
-                break;
-            }
-            default: {
-                updatedDate = await OpenDate.findById(id)
-                break
-            }
-        }
-
+        // const openSeatArr = await SlotInAShift.findOne(query);
+        const openSeatArr = await SlotInAShift.find({ $and: [{ shiftId: shiftId }, { available: true }] })
+        const arrangeOpenSeatArr = sortArrOfObjects(openSeatArr, 'seatNumber')
         
-        const updatedShiftCustId = updatedDate[destinationShift].map((cust) => cust._id.toString() )
-        const oldShiftCustId = dateToBook[destinationShift].map((cust) => cust._id.toString() )
+        let query = {
+            shiftId: shiftId,
+            available: true,
+            seatNumber: 0
+        }
+        let slot = null;
+        let idx = 0;
 
-        const bookID = getBookingIdInArr(oldShiftCustId, updatedShiftCustId);
-        const getTheDataFromPhoneNum = await OpenDate.findById(id)
-                                    .select({'customersShift1': {$elemMatch: { cellphone: cellphone }}})
-                                    .select({'customersShift2': {$elemMatch: { cellphone: cellphone }}})
-                                    .select({'customersShift3': {$elemMatch: { cellphone: cellphone }}})
-
-        let finalData = bookID.map((resv) => {
-            let temp2 = getTheDataFromPhoneNum[destinationShift].map((item) => {
-                let temp = item._id.toString()
-                if(temp === resv){
-                    return temp
+        while (!slot && idx < arrangeOpenSeatArr.length){
+            query.seatNumber = arrangeOpenSeatArr[idx].seatNumber;
+            
+            slot = await SlotInAShift.findOneAndUpdate(query, {
+                $set: {
+                    bookedBy: name,
+                    phone: cellphone,
+                    available: false
                 }
-            })
-            if(temp2) return temp2[0]
-        })
-        console.log(finalData)
+            }, { new: true });
+            
+            idx++;
+        }
         
-        console.log(`${name}-${cellphone} is on the list`);
-        res.json({ bookIdArr: bookID, cellphone });
+        if (!slot) return res.status(404).json({ message: 'Jam ini sudah penuh!' })
+
+        console.log("Booked success");
+
+        // Create ticket
+        const ticket =  await TicketForTherapy.create([{
+            seatNumber: slot.seatNumber,
+            scheduleId: id,
+            shiftId: slot.shiftId,
+            slotId: slot._id,
+            name: slot.bookedBy,
+            phone: slot.phone
+        }])
+        console.log(`${name}-${cellphone} success book and create ticket`);
+        res.json(ticket);
 
     } catch (error) {
         console.log(error)

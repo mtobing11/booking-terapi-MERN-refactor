@@ -36,7 +36,11 @@ const DateForm = () => {
 
   useEffect(() => {
     if(editDateData){
-      setDateForm({...editDateData })
+      console.log(editDateData);
+      let shiftsSchedule = editDateData.schedules.map((shift) => shift.schedule);
+      // let shiftsQuota = currData.schedules.map(shift => shift.quota);
+
+      setDateForm({...editDateData, capacity: editDateData.schedules[0].quota, schedules: shiftsSchedule })
       editRef.current.focus()
       // console.log(editDateID)
     }
@@ -66,6 +70,7 @@ const DateForm = () => {
     setDialogOpen(false);
     if(editDateID){dispatch(updateDate(dateForm, editDateID))}
     else {dispatch(openNewDate(dateForm))}
+    setupDataFormSetup()
   }
 
   const handleDateChange = (val) => {
@@ -87,6 +92,7 @@ const DateForm = () => {
       setDateForm({...setup, openDate: moment(new Date(dateNow)), shiftsStatus: shiftsStatus, status: true});
     }
   }
+
 
   return (
     <Paper sx={{ p: '1rem', pb: '0.5rem' }} elevation={2}>

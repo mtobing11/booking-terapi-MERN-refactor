@@ -12,8 +12,8 @@ import { updateOpeningMessage } from '../../actions/dashboardAct';
 const initialSetup = { message: '', duration: 0, isDuration: true, status: false, creator: ''}
 
 const OpeningMessage = () => {
-  const messageID = '6389ddb77c2dcd80c33b3655';
-  const user = 'Visual Man';
+  const messageID = '6399a64319f6e07e02575324'
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
   const dispatch = useDispatch();
   const [messageForm, setMessageForm] = useState(initialSetup);
   const messageData = useSelector((state) => state.dashboard?.message)

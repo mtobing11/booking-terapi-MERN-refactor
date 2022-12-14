@@ -12,7 +12,7 @@ import { updateSetupTemplate } from '../../actions/dashboardAct';
 const initialSetup = { capacity: 0, bookingLimit: 0, shifts: 0, schedules: [] }
 
 const SetupTemplate = () => {
-  const templateID = '6389fb5de854b4cbe464673e';
+  const setupID = '6399a5b194f10be27c2aa767';
   const user = 'Visual Man';
   const shiftsNameArr = ['shift1', 'shift2', 'shift3'];
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const SetupTemplate = () => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      dispatch(updateSetupTemplate(setupForm, templateID))
+      dispatch(updateSetupTemplate(setupForm, setupID))
   }
 
   const handleChange = (e, idx) => {

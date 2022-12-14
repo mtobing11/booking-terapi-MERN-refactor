@@ -6,10 +6,10 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/dates', getAllDates2);
-router.post('/dates/new', openNewDate2);
-router.patch('/dates/:id', updateSchedule);
-router.delete('/dates/:id', deleteSchedule);
-router.delete('/dates/slots/:id', deleteSlots);
+router.post('/dates/new', auth, openNewDate2);
+router.patch('/dates/:id', auth, updateSchedule);
+router.delete('/dates/:id', auth, deleteSchedule);
+router.delete('/dates/slots/:id', auth, deleteSlots);
 // router.get('/dates', getAllDates);
 // router.post('/dates/new', auth, openNewDate);
 // router.patch('/dates/:id', auth, updateExistingDate);

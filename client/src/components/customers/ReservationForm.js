@@ -12,7 +12,7 @@ import { getAvailableDates, makeReservation } from '../../actions/reservationAct
 
 // import functions
 import { phoneValidator } from '../../utils/utils';
-const initialSetup = { name: '', cellphone: '', shift: 0, openDate: '' }
+const initialSetup = { name: '', cellphone: '', shiftId: '', openDate: '' }
 
 const ReservationForm = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const ReservationForm = () => {
       let shiftLength = dates[0].shifts > 3 ? 3 : dates[0].shifts;
       let tempShiftArr = [];
 
-      setBookForm({ ...bookForm, openDate: dates[0].openDate, shift: 1 })
+      setBookForm({ ...bookForm, openDate: dates[0].openDate, shiftId: dates[0].schedules[0]._id })
 
       for(let i = 0; i < shiftLength; i++){
         tempShiftArr.push(`shift${i+1}`)
@@ -52,11 +52,11 @@ const ReservationForm = () => {
   }
 
   const handleShiftChange = (e) => {
-    setBookForm({ ...bookForm, shift: e.target.value })
+    setBookForm({ ...bookForm, shiftId: e.target.value })
   }
 
   const clear = () => {
-    setBookForm({ ...initialSetup, openDate: dates[0].openDate, shift: 1 })
+    setBookForm({ ...initialSetup, openDate: dates[0].openDate, shiftId: dates[0].schedules[0]._id })
   }
 
   return (
@@ -78,10 +78,10 @@ const ReservationForm = () => {
             <InputLabel id="shiftName" size="small">Jam Kunjungan</InputLabel>
             {shiftArr.length > 0 && (
               <Select labelId="shiftName" name="shiftName" id="shiftNameId" required={true}  size="small"
-                  value={bookForm.shift} label="Pilih jam kunjungan" onChange={(e)=>handleShiftChange(e)}
+                  value={bookForm.shiftId} label="Pilih jam kunjungan" onChange={(e)=>handleShiftChange(e)}
               >
                 {shiftArr.map((shift, idx) => (
-                  <MenuItem key={`${idx}-${shift}`} value={idx+1}>{dates[0].schedules[idx]}</MenuItem>
+                  <MenuItem key={`${idx}-${shift}`} value={dates[0].schedules[idx]._id}>{dates[0].schedules[idx].schedule}</MenuItem>
                 ))}
               </Select>
             )}

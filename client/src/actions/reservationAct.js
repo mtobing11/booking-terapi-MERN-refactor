@@ -21,14 +21,8 @@ export const makeReservation = (reservationForm, id) => async (dispatch) => {
         console.log('id:', id)
         console.log(reservationForm)
         const { data } = await api.makeReservation(id, reservationForm);
-        console.log(data)
-       
-        let arrIdString = data.bookIdArr.join("-");
-        console.log(arrIdString);
-        const { data: reservationData } = await api.fetchDataCustomer(id, arrIdString, data.cellphone)
-        // const { data: reservationData } = await api.fetchDataCustomer(id, data)
-        console.log(reservationData);
-        // dispatch({ type: CREATE_TICKET, payload: sortDateArr(data, 'openDate') })
+        // console.log(data)
+        dispatch({ type: CREATE_TICKET, payload: data[0] })
     } catch (error) {
         console.log(error);
         dispatch({ type: ERROR_CUSTOMER, payload: error.response });

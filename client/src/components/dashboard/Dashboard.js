@@ -12,12 +12,12 @@ import MessageSnackbar from '../../components/dashboard/MessageSnackbar';
 import { getAllDates, getSetup, getOpeningMessage } from '../../actions/dashboardAct';
 
 const Dashboard = () => {
-  const setupID = '6389fb5de854b4cbe464673e';
-  const messageID = '6389ddb77c2dcd80c33b3655';
+  const setupID = '6399a5b194f10be27c2aa767';
+  const messageID = '6399a64319f6e07e02575324';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
   const [isAlert, setIsAlert] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [resMessage, setResMessage] = useState('');
