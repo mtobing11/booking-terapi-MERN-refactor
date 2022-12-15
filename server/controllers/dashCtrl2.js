@@ -18,6 +18,18 @@ export const getAllDates2 = async (req, res) => {
     }
 }
 
+// get all customers
+export const getAllTickets = async (req, res) => {
+    console.log("get all tickets data");
+
+    try {
+        const slots = await TicketForTherapy.find();
+        res.json(slots)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // open new date
 export const openNewDate2 = async (req, res) => {
     console.log("Open new Date");

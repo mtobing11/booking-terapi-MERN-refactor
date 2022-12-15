@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR, GET_OPENING_MESSAGE, UPDATE_MESSAGE, UPDATE_SETUP } from  '../constants/actionTypes';
+import { GET_ALL_DATES, GET_ALL_TICKETS, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR, GET_OPENING_MESSAGE, UPDATE_MESSAGE, UPDATE_SETUP } from  '../constants/actionTypes';
 
 // import functions
 import { sortDateArr, cutArray, arrangeSchedules } from '../utils/utils';
@@ -9,6 +9,17 @@ export const getAllDates = () => async (dispatch) => {
     try {
         const { data } = await api.fetchAllDates();
         dispatch({ type: GET_ALL_DATES, payload: sortDateArr(data, 'openDate') })
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: ERROR, payload: error.response });
+    }
+}
+
+// get all tickets
+export const getAllTickets = () => async (dispatch) => {
+    try {
+        const { data } = await api.fetchAllTickets();
+        dispatch({ type: GET_ALL_TICKETS, payload: data })
     } catch (error) {
         console.log(error);
         dispatch({ type: ERROR, payload: error.response });

@@ -7,7 +7,8 @@ const ticketSchema = mongoose.Schema({
     shiftId: { type: mongoose.ObjectId, required: true },
     slotId: { type: mongoose.ObjectId, required: true },
     name: { type: String, required: true },
-    phone: { type: Number, required: true }
+    phone: { type: Number, required: true },
+    issuedAt: { type: Date }
 });
 
 const ticketForTherapy = mongoose.model('ticketForTherapy', ticketSchema);

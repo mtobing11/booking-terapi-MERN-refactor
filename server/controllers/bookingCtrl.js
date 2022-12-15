@@ -13,7 +13,7 @@ export const getDates = async (req, res) => {
     let nextDay = getTomorrowDate()
     
     try {
-        const arrDates = await TherapySchedule.find({ $and: [{ openDate: {$gt: nextDay} }, { status: true }] })
+        const arrDates = await TherapySchedule.find({ $and: [{ openDate: {$gte: nextDay} }, { status: true }] })
         res.json(arrDates)
     } catch (error) {
         console.log(error)
@@ -81,7 +81,8 @@ export const makeReservation = async (req, res) => {
             shiftId: slot.shiftId,
             slotId: slot._id,
             name: slot.bookedBy,
-            phone: slot.phone
+            phone: slot.phone,
+            issuedAt: new Date()
         }])
         console.log(`${name}-${cellphone} success book and create ticket`);
         res.json(ticket);

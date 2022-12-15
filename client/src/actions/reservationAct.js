@@ -18,8 +18,6 @@ export const getAvailableDates = () => async (dispatch) => {
 // make a reservation
 export const makeReservation = (reservationForm, id) => async (dispatch) => {
     try {
-        console.log('id:', id)
-        console.log(reservationForm)
         const { data } = await api.makeReservation(id, reservationForm);
         // console.log(data)
         dispatch({ type: CREATE_TICKET, payload: data[0] })

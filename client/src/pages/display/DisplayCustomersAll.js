@@ -22,8 +22,7 @@ const normalLinkStyle = {
 }
 
 const DisplayCustomersAll = () => {
-  const headArr = ['Date', 'Nama', 'No HP', 'Shift', 'No Urut', 'booked at'];
-  const numInArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  const headArr = ['Date', 'No Urut', 'Nama', 'No HP', 'Shift', 'Issued At'];
   const activeLink = activeLinkStyle;
   const normalLink = normalLinkStyle;
   const [tableContentArr, setTableContentArr] = useState([])
@@ -32,9 +31,10 @@ const DisplayCustomersAll = () => {
   const [dateArrToShow, setDateArrToShow] = useState([]);
   const [dateIndex, setDateIndex] = useState(-1);
   const dates = useSelector((state) => state.dashboard?.dates)
+  const tickets = useSelector((state) => state.dashboard?.allTickets)
 
   useEffect(() => {
-    if(dates.length > 0){
+    if(dates.length > 0 && tickets.length > 0){
       let dateNow = new Date();
       dateNow.setDate(dateNow.getDate() + 1);
 
@@ -42,13 +42,13 @@ const DisplayCustomersAll = () => {
       let tempArr, dateIndex;
       
       if(dateData.length > 0){
-        tempArr = arrangeArr(dateData[0])
+        tempArr = arrangeArr(dateData[0], tickets)
         dateIndex = findDateIndex(new Date(dateData[0].openDate), dates)
       } else {
         let datesLength = dates.length;
         console.log(datesLength);
         dateIndex = datesLength - 1
-        tempArr = arrangeArr(dates[dateIndex])
+        tempArr = arrangeArr(dates[dateIndex], tickets)
       }
 
       setIsDataAll(true)
@@ -62,16 +62,17 @@ const DisplayCustomersAll = () => {
     }
   }, [dates])
 
-  const arrangeArr = (obj) => {
+  const arrangeArr = (dateObj, tickets) => {
     let resultArr = [];
-    let shiftLength = obj.shifts > 3 ? 3 : obj.shifts;
+    let shiftLength = dateObj.shifts > 3 ? 3 : dateObj.shifts;
     
     for (let i = 0; i < shiftLength; i++){
-      let currShift = `customersShift${i+1}`;
-      let tempArr = makeNewArrObject(obj[currShift], ['name', 'cellphone', 'bookedAt'], obj.openDate,`shift${i+1}`);
+      let currShiftId = dateObj.schedules[i]._id;
+      let tempArr = makeNewArrObject(currShiftId, tickets, ['seatNumber', 'name', 'phone', 'issuedAt'], dateObj.openDate,`shift${i+1}`);
 
       resultArr.push(tempArr)
     }
+    
     return resultArr
   }
 
@@ -83,7 +84,7 @@ const DisplayCustomersAll = () => {
     let index = e.target.value;
     setDateIndex(index);
 
-    let tempArr = arrangeArr(dates[index]);
+    let tempArr = arrangeArr(dates[index], tickets);
     setTableContentArr(tempArr);
   }
 

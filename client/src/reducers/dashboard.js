@@ -1,10 +1,12 @@
-import { GET_ALL_DATES, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR, GET_OPENING_MESSAGE, UPDATE_MESSAGE, UPDATE_SETUP } from '../constants/actionTypes';
+import { GET_ALL_DATES, GET_ALL_TICKETS, NEW_DATE, UPDATE_DATE, DELETE_DATE, ACTIVE_MENU, RESIZE_SCREEN, SETUP, SET_EDIT_DATE, RESET, ERROR, GET_OPENING_MESSAGE, UPDATE_MESSAGE, UPDATE_SETUP } from '../constants/actionTypes';
 import { sortDateArr, formattingDate } from '../utils/utils'
 
-export default(state = { activeMenu: true, dates: [], error: '', success: '', message: ''}, action) => {
+export default(state = { activeMenu: true, dates: [], allTickets: [], error: '', success: '', message: ''}, action) => {
     switch (action.type){
         case GET_ALL_DATES:
             return { ...state, dates: action.payload }
+        case GET_ALL_TICKETS:
+            return { ...state, allTickets: action.payload }
         case NEW_DATE: {
             let newArr = [...state.dates, action.payload];
             return { ...state, dates: sortDateArr(newArr, 'openDate'), success: 'Success Open the Date' }

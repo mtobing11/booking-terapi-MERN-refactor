@@ -175,7 +175,7 @@ export const findDateIndex = ( exactDate, arrDate ) => {
 }
 
 // make new array of objects
-export const makeNewArrObject = (oldArr, goalArr, date, shift) => {
+export const makeNewArrObject2 = (oldArr, goalArr, date, shift) => {
 
     let arr = oldArr.map((cust, idx) => {
         
@@ -191,4 +191,21 @@ export const makeNewArrObject = (oldArr, goalArr, date, shift) => {
     }
 
     return arr;
+}
+
+export const makeNewArrObject = (shiftId, tickets, goalArr, date, shiftName) => {
+    let arrTicketsInTheShift = tickets.filter(ticket => ticket.shiftId === shiftId)
+    
+    let newArr = arrTicketsInTheShift.map((ticket, idx) => {
+        let tempArr = makeNewArr(ticket)
+        let formattedArr = [formattingDate(new Date(date), 'dmmy'), tempArr[0], tempArr[1], tempArr[2], shiftName, formattingDate(new Date(tempArr[3]))]
+
+        return formattedArr
+    })
+
+    function makeNewArr(obj){
+        let temporaryArr = goalArr.map((val) => obj[val])
+        return temporaryArr
+    }
+    return newArr
 }

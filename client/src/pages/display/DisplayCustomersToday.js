@@ -22,19 +22,20 @@ const normalLinkStyle = {
 }
 
 const DisplayCustomersToday = () => {
-  const headArr = ['Date', 'Nama', 'No HP', 'Shift', 'No Urut', 'booked at'];
+  const headArr = ['Date', 'No Urut', 'Nama', 'No HP', 'Shift', 'Issued At'];
   const activeLink = activeLinkStyle;
   const normalLink = normalLinkStyle;
   const [tableContentArr, setTableContentArr] = useState([])
   const [activeTab, setActiveTab] = useState(0);
   const [isDataToday, setIsDataToday] = useState(false);
   const dates = useSelector((state) => state.dashboard?.dates)
+  const tickets = useSelector((state) => state.dashboard?.allTickets)
 
   useEffect(() => {
-    if(dates.length > 0){
+    if(dates.length > 0 && tickets.length > 0){
       let dateData = findDate(dates, true)
       if(dateData.length > 0){
-        let tempArr = arrangeArr(dateData[0])
+        let tempArr = arrangeArr(dateData[0], tickets)
         setIsDataToday(true)
         setTableContentArr(tempArr)
       }
@@ -44,16 +45,16 @@ const DisplayCustomersToday = () => {
     }
   }, [dates])
 
-  const arrangeArr = (obj) => {
+  const arrangeArr = (dates, tickets) => {
     let resultArr = [];
-    let shiftLength = obj.shifts > 3 ? 3 : obj.shifts;
+    let shiftLength = dates.shifts > 3 ? 3 : dates.shifts;
 
     for (let i = 0; i < shiftLength; i++){
-      let currShift = `customersShift${i+1}`;
-      let tempArr = makeNewArrObject(obj[currShift], ['name', 'cellphone', 'bookedAt'], obj.openDate,`shift${i+1}`);
-
+      let currShiftId = dates.schedules[i]._id;
+      let tempArr = makeNewArrObject(currShiftId, tickets, ['seatNumber', 'name', 'phone', 'issuedAt'], dates.openDate, `shift${i+1}` );
       resultArr.push(tempArr)
     }
+    
     return resultArr
   }
 
@@ -75,12 +76,6 @@ const DisplayCustomersToday = () => {
               )}
             </Box>
           ))}
-          {/* <Box style={activeLink}>
-            <Button title="shift1" value={0} onClick={(e) => { handleActiveButton(e) }}>Shift1</Button>
-          </Box>
-          <Box style={normalLink}>
-            <Button title="shift2" value={1} onClick={(e) => { handleActiveButton(e) }}>Shift2</Button>
-          </Box> */}
         </div>
         <div style={{ padding: '0.5rem', backgroundColor: 'rgba(0, 191, 255, 0.3)' }}>
           {isDataToday ? (

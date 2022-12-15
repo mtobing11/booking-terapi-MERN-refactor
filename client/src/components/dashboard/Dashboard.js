@@ -9,7 +9,7 @@ import Navbar from './Navbar';
 import MessageSnackbar from '../../components/dashboard/MessageSnackbar';
 
 // import actions
-import { getAllDates, getSetup, getOpeningMessage } from '../../actions/dashboardAct';
+import { getAllDates, getAllTickets,getSetup, getOpeningMessage } from '../../actions/dashboardAct';
 
 const Dashboard = () => {
   const setupID = '6399a5b194f10be27c2aa767';
@@ -32,6 +32,7 @@ const Dashboard = () => {
     }
     if(user){
       dispatch(getAllDates());
+      dispatch(getAllTickets());
       dispatch(getSetup(setupID));
       dispatch(getOpeningMessage(messageID));
     }

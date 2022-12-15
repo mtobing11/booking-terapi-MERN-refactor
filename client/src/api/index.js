@@ -10,6 +10,7 @@ API.interceptors.request.use((req) => {
 })
 
 export const fetchAllDates = () => API.get('/dashboard/dates');
+export const fetchAllTickets = () => API.get('/dashboard/dates/tickets');
 export const createNewDate = (dateForm) => API.post('/dashboard/dates/new', dateForm);
 export const updateDate = (dateForm, id) => API.patch(`/dashboard/dates/${id}`, dateForm);
 export const deleteDate = (id) => API.delete(`/dashboard/dates/${id}`);

@@ -51,7 +51,7 @@ const Sidebar = () => {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '100%'}}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '0.75rem' }}>
-              <Link to="/dashboard" onClick={handleCloseSidebar} style={{ fontSize: '1.25rem', lineHeight: '1.75rem', marginLeft: '0.75rem', marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Link to="/boardpanel" onClick={handleCloseSidebar} style={{ fontSize: '1.25rem', lineHeight: '1.75rem', marginLeft: '0.75rem', marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <HomeIcon /><span>Home</span>
               </Link>
               <Tooltip title="Menu" placement="bottom">
