@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import OpenDate from '../models/dateModel.js';
 import Message from '../models/messageModel.js';
 import TherapySchedule from '../models/scheduleModel.js';
 import SlotInAShift from '../models/slotModel.js';
@@ -92,32 +91,3 @@ export const makeReservation = async (req, res) => {
     }
 }
 
-// Second Step: get the reservation
-export const getDataFromReservationList = async (req, res) => {
-    // const { dateid, bookingid } = req.params;
-    const { dateid } = req.params;
-
-    let { arrIds, cellphone} = req.query;
-    let arrIdCustomers = arrIds.split('-');
-
-
-    try {
-        if(!mongoose.Types.ObjectId.isValid(dateid)) return res.status(404).send("Sudah Fullbooked");
-
-        const date = await OpenDate.findById(dateid);
-        if(!date) return res.status(404).json({ message: 'Tanggal tersebut ditutup!' });
-
-        const [index, data] = getBookingId(arrIdCustomers, date, cellphone);
-        
-        if(index.length > 0){
-            // console.log(`${data.name}-${data.cellphone} is on the list`);
-            // console.log(index, data)
-            return res.json({ index, data })
-        }
-
-        return res.status(404).send("Sudah Fullbooked");
-    } catch (error) {
-        console.log(error);
-    }
-
-}
