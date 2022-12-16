@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // import component
-import { Grow, Container, CardMedia, Avatar, Link } from '@mui/material';
+import { Grow, Container, Link, Grid, Box } from '@mui/material';
 import ReservationForm from './ReservationForm';
+import Footer from './Footer';
 import TicketDialog from './dialogCustomer/DialogTicket';
 import MessageSnackbar from '../dashboard/MessageSnackbar';
 import whatsAppImg from '../../data/WhatsApp.png';
-import image from '../../data/tketok_2.svg';
+import HeadText from './HeadText';
+import { ResponsiveBGGrid, ResponsiveTitleGrid, ResponsiveAvatar, ResponsiveBox } from './styles';
 
 // import actions
 import { getAvailableDates, getOpeningMessage } from '../../actions/reservationAct';
@@ -81,18 +83,30 @@ const Home = () => {
 
   return (
     <Grow in>
-      <CardMedia image={image}>
-        <Container maxWidth="sm" sx={{padding: 2, position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Grid sx={{backgroundColor: 'rgb(54, 91, 109)'}}>
+        <Container maxWidth="xl" sx={{padding: 2, position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', }}>
           <Link href={whatsappLink} target="_blank" rel="noopener">
-              <Avatar src={whatsAppImg} variant='square' sx={{ position: 'absolute', right: '0', bottom: '35%', zIndex: 100, width:'60px', height: '60px' }} />
+              <ResponsiveAvatar src={whatsAppImg} variant='square' />
           </Link>
-          <ReservationForm />
+          <ResponsiveBGGrid container>
+            <ResponsiveTitleGrid item sm={12} md={4}>
+              <Box sx={{ maxWidth: '400px' }}>
+                <HeadText />
+              </Box>
+            </ResponsiveTitleGrid>
+            <Grid item sm={12} md={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <ResponsiveBox>
+                <ReservationForm />
+                <Footer />
+              </ResponsiveBox>
+            </Grid>
+          </ResponsiveBGGrid>
           <TicketDialog dialogOpen={ticketDialogOpen} setDialogOpen={setTicketDialogOpen} dialogStyle={styleRef.current}
               handleClickButton={handleClickButton} title={titleRef.current} contentArr={ticketRef.current} footer={footerRef.current} 
           />
           <MessageSnackbar isAlert={isAlert} setIsAlert={setIsAlert} messageRes={resMessage} type='warning' />
         </Container>
-      </CardMedia>
+      </Grid>
     </Grow>
   )
 }
