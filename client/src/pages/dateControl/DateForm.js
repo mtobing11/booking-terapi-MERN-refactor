@@ -68,7 +68,7 @@ const DateForm = () => {
 
   const handleSubmit = () => {
     setDialogOpen(false);
-    if(editDateID){dispatch(updateDate(dateForm, editDateID))}
+    if(editDateID){dispatch(updateDate(dateForm, editDateID, true))}
     else {dispatch(openNewDate(dateForm))}
     setupDataFormSetup()
   }

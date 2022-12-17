@@ -50,9 +50,11 @@ export const handleDataToEdit = (id) => (dispatch) => {
 }
 
 // update existing date
-export const updateDate = (dateForm, id) => async (dispatch) => {
-    let schedulesArr = arrangeSchedules(dateForm);
-    dateForm.schedules = schedulesArr;
+export const updateDate = (dateForm, id, needArrange=false) => async (dispatch) => {
+    if(needArrange){
+        let schedulesArr = arrangeSchedules(dateForm);
+        dateForm.schedules = schedulesArr;
+    }
 
     try {
         const { data } = await api.updateDate(dateForm, id);

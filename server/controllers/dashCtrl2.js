@@ -34,11 +34,11 @@ export const getAllTickets = async (req, res) => {
 export const openNewDate2 = async (req, res) => {
     console.log("Open new Date");
     if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
-
+    
     const body = req.body;
     const openDate = body.openDate;
     const schedules = body.schedules;
-
+    
     let beginDate = formatDate(openDate, 'dmmmy');
     let endDate = formatDate(openDate, 'dmmmy');
     endDate.setDate(beginDate.getDate() + 1);
@@ -58,16 +58,17 @@ export const openNewDate2 = async (req, res) => {
         
         const openSchedule = await TherapySchedule.create([data])
         const scheduleID = openSchedule[0]._id
-
+        console.log(openSchedule)
         openSchedule[0].schedules.map(async (shift, idx) => {
-            console.log(shift)
             
             const slots = [...Array(shift.quota).keys()].map(j => ({
                 scheduleId: scheduleID,
                 shiftId: openSchedule[0].schedules[idx]._id,
-                seatNumber: j + 1
+                seatNumber: j + 1,
+                available: body.status
             }))
-            await SlotInAShift.create(slots)
+            let newSlot = await SlotInAShift.create(slots)
+            // console.log(newSlot);
         })
 
         res.json(openSchedule[0])
@@ -85,7 +86,7 @@ export const updateSchedule = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
     const { schedules } = req.body;
-
+    console.log(schedules);
     
     try {
         if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Tanggal tidak ada")

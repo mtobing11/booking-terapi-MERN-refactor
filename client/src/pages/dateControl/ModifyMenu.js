@@ -55,10 +55,10 @@ const ModifyMenu = ({ id, data }) => {
   }
 
   const handleStatusChange = () => {
-    let obj = { ...data, status: !data.status}
+    let obj = { ...data, status: !data.status }
     return dispatch(updateDate(obj, id))
   }
-
+  
   return (
     <>
         <Button id="basic-button" aria-controls={open ? 'basic-menu' : undefined}

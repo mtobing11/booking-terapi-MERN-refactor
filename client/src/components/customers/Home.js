@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // import component
 import { Grow, Container, Link, Grid, Box } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import InfoIcon from '@mui/icons-material/Info';
 import ReservationForm from './ReservationForm';
 import Footer from './Footer';
 import TicketDialog from './dialogCustomer/DialogTicket';
@@ -19,9 +21,9 @@ import { RESET_CUSTOMER } from '../../constants/actionTypes';
 import { formattingDate } from '../../utils/utils'
 
 const messageObj = {
-  ticket: { title: 'Booking berhasil', footer: 'Harap screen capture ticket ini', bgColor: {} },
-  infoFull: { title: '', footer: '',  bgColor: {backgroundColor: ''} },
-  message: { title: '', footer: '',  bgColor: {backgroundColor: ''} },
+  ticket: { title: 'Booking berhasil', footer: 'Harap screen capture ticket ini', bgColor: {}, icon: <CheckCircleOutlineIcon color="success" style={{ fontSize: "100px" }} /> },
+  infoFull: { title: 'Info', footer: '',  bgColor: {backgroundColor: ''}, icon: '' },
+  message: { title: '', footer: '',  bgColor: {backgroundColor: ''}, icon: '' },
 }
 
 const Home = () => {
@@ -30,6 +32,7 @@ const Home = () => {
   const titleRef = useRef();
   const footerRef = useRef();
   const styleRef = useRef();
+  const iconRef = useRef();
   const whatsappLink = "https://api.whatsapp.com/send?phone=6281299098724&amp;text=Halo%20Terapi%20Ketok%20Mr.Kevin%20";
   const openingMessageID = '6399a64319f6e07e02575324';
   const [isAlert, setIsAlert] = useState(false);
@@ -50,7 +53,7 @@ const Home = () => {
           `Nama: ${ticket.name}`, `Tanggal: ${formattingDate(new Date(), 'dmmy-time')}`, 
           `Jam: ${ticket.shiftHour}`, `Phone: ${ticket.phone}`
         ]
-        handleSetDialog("tikcet")
+        handleSetDialog("ticket")
       } else if(ticketInfoFull){
         ticketRef.current = [ticketInfoFull.message];
         handleSetDialog("infoFull")
@@ -72,6 +75,7 @@ const Home = () => {
     titleRef.current = messageObj[type].title;
     footerRef.current = messageObj[type].footer;
     styleRef.current = messageObj[type].bgColor;
+    iconRef.current = messageObj[type].icon;
     setTicketDialogOpen(true);
   }
 
@@ -102,7 +106,7 @@ const Home = () => {
             </Grid>
           </ResponsiveBGGrid>
           <TicketDialog dialogOpen={ticketDialogOpen} setDialogOpen={setTicketDialogOpen} dialogStyle={styleRef.current}
-              handleClickButton={handleClickButton} title={titleRef.current} contentArr={ticketRef.current} footer={footerRef.current} 
+              handleClickButton={handleClickButton} title={titleRef.current} contentArr={ticketRef.current} footer={footerRef.current} icon={iconRef.current}
           />
           <MessageSnackbar isAlert={isAlert} setIsAlert={setIsAlert} messageRes={resMessage} type='warning' />
         </Container>
