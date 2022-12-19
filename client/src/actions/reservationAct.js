@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { GET_OPEN_DATES, ERROR_CUSTOMER, CREATE_TICKET, CREATE_TICKET_INFO, OPENING_MESSAGE_CUSTOMER } from '../constants/actionTypes';
+import { GET_OPEN_DATES, ERROR_CUSTOMER, CREATE_TICKET, CREATE_TICKET_INFO, OPENING_MESSAGE_CUSTOMER, START_PROCESSING, END_PROCESSING } from '../constants/actionTypes';
 
 // import functions
 import { sortDateArr, cutArray } from '../utils/utils';
@@ -21,8 +21,16 @@ export const getAvailableDates = () => async (dispatch) => {
 // make a reservation
 export const makeReservation = (reservationForm, id) => async (dispatch) => {
     try {
+        if(!reservationForm.name){
+             return dispatch({ type: ERROR_CUSTOMER, payload: { data : { message: 'Harap isi nama anda' }} }); 
+        }
+        if(!reservationForm.cellphone){
+             return dispatch({ type: ERROR_CUSTOMER, payload: { data : { message: 'Harap cek no HP anda' }} }); 
+        }
+        if(!reservationForm.shiftId){
+             return dispatch({ type: ERROR_CUSTOMER, payload: { data : { message: 'Harap pilih jam kunjungan' }} }); 
+        }
         const { data } = await api.makeReservation(id, reservationForm);
-        // console.log(data)
         dispatch({ type: CREATE_TICKET, payload: data[0] })
     } catch (error) {
         console.log(error);

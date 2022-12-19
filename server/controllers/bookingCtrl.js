@@ -5,7 +5,7 @@ import SlotInAShift from '../models/slotModel.js';
 import TicketForTherapy from '../models/ticketModel.js'
 
 // import functions
-import { checkPhoneLimit, checkCapacity, formatDate, getTomorrowDate, getBookingId, getBookingIdInArr, sortArrOfObjects } from '../utils/utils.js';
+import { formatDate, getTomorrowDate, sortArrOfObjects } from '../utils/utils.js';
 
 export const getDates = async (req, res) => {
     console.log("a customer open the app");

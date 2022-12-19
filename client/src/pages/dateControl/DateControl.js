@@ -18,7 +18,6 @@ const DateControl = () => {
   useEffect(() => {
     if(dates.length >0){
       makeTableContent(dates.length)
-      console.log(dates)
     }
   }, [dates])
 

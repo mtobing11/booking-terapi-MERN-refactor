@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // import component
-import { Grow, Container, Link, Grid, Box } from '@mui/material';
+import { Grow, Container, Link, Grid, Box, LinearProgress } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import ReservationForm from './ReservationForm';
@@ -24,6 +24,7 @@ const messageObj = {
   ticket: { title: 'Booking berhasil', footer: 'Harap screen capture ticket ini', bgColor: {}, icon: <CheckCircleOutlineIcon color="success" style={{ fontSize: "100px" }} /> },
   infoFull: { title: 'Info', footer: '',  bgColor: {backgroundColor: ''}, icon: '' },
   message: { title: '', footer: '',  bgColor: {backgroundColor: ''}, icon: '' },
+  showProgress: { title: 'Processing', footer: '', bgColor: {}, icon: <LinearProgress />}
 }
 
 const Home = () => {
@@ -51,7 +52,7 @@ const Home = () => {
       if(ticket){
         ticketRef.current = [
           `Nama: ${ticket.name}`, `Tanggal: ${formattingDate(new Date(), 'dmmy-time')}`, 
-          `Jam: ${ticket.shiftHour}`, `Phone: ${ticket.phone}`
+          `Jam: ${ticket.shiftHour}`, `No urut: ${ticket.seatNumber}`,`Phone: ${ticket.phone}`
         ]
         handleSetDialog("ticket")
       } else if(ticketInfoFull){
@@ -65,7 +66,6 @@ const Home = () => {
 
   useEffect(() => {
     if(errorResponse){
-      console.log(errorResponse.data);
       setResMessage(errorResponse.data.message)
       setIsAlert(true)
     }

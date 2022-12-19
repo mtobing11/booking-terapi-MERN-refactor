@@ -1,6 +1,5 @@
 import express from 'express';
-import { getAllDates, openNewDate, updateExistingDate, deleteDate, getMessage, createNewPlaceForMessage, updateMessage, createNewPlaceForSetup, updateSetup, getSetup } from '../controllers/dashCrlt.js';
-import { getAllDates2, openNewDate2, updateSchedule, deleteSlots, deleteSchedule, getAllTickets } from '../controllers/dashCtrl2.js';
+import { getAllDates2, openNewDate2, updateSchedule, deleteSlots, deleteSchedule, getAllTickets, getMessage, createNewPlaceForMessage, updateMessage, createNewPlaceForSetup, updateSetup, getSetup } from '../controllers/dashCtrl.js';
 import auth from '../middleware/auth.js';
 
 const router = express.Router();
@@ -11,10 +10,6 @@ router.post('/dates/new', auth, openNewDate2);
 router.patch('/dates/:id', auth, updateSchedule);
 router.delete('/dates/:id', auth, deleteSchedule);
 router.delete('/dates/slots/:id', auth, deleteSlots);
-// router.get('/dates', getAllDates);
-// router.post('/dates/new', auth, openNewDate);
-// router.patch('/dates/:id', auth, updateExistingDate);
-// router.delete('/dates/:id', auth, deleteDate);
 
 router.get('/message/:id', getMessage);
 router.post('/message/new', auth, createNewPlaceForMessage)

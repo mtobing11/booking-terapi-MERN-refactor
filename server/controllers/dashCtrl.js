@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import TherapySchedule from '../models/scheduleModel.js';
 import SlotInAShift from '../models/slotModel.js';
 import TicketForTherapy from '../models/ticketModel.js';
+import Message from '../models/messageModel.js';
+import Setup from '../models/setupModel.js';
 
 // import functions
 import { formatDate } from '../utils/utils.js';
@@ -182,6 +184,118 @@ export const deleteSchedule = async (req, res) => {
         await TicketForTherapy.deleteMany({ scheduleId: id });
 
         res.json({ message: "Tanggal, semua slot, semua ticket berhasil di hapus" , type: "success_data"})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// get existing message
+export const getMessage = async (req, res) => {
+    console.log("Dashboard get Message");
+
+    const { id } = req.params;
+    try {
+        const findMessage = await Message.findById(id);
+        res.json(findMessage)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// create new place for message
+export const createNewPlaceForMessage = async (req, res) => {
+    console.log("Create New Place 4 Message");
+    // if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+
+    const { message, duration, creator } = req.body;
+    const newMessage = await Message({ timestamp: new Date(), duration, message, creator});
+    try {
+        await newMessage.save(req.body);
+        res.status(201).json(newMessage);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// update existing message
+export const updateMessage = async (req, res) => {
+    console.log("Dashboard Update Message");
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+
+    const { id } = req.params;
+    const { message, duration, isDuration, creator, status } = req.body;
+
+    try {
+        if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Tanggal tidak ada")
+    
+        const findMessage = await Message.findById(id);
+        if(!findMessage) return res.status(404).send("Message tidak ada")
+
+        findMessage['message'] = message;
+        findMessage['duration'] = duration;
+        findMessage['isDuration'] = isDuration;
+        findMessage['creator'] = creator;
+        findMessage['status'] = status;
+        findMessage['timestamp'] = new Date();
+
+        const updatedMessage = await Message.findByIdAndUpdate(id, findMessage, { new: true })
+        
+        res.json(updatedMessage);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// create new setup
+export const createNewPlaceForSetup = async (req, res) => {
+    console.log("Create New Place 4 Setupe");
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+
+    const { capacity, bookingLimit, shifts, schedules } = req.body;
+    const newSetup = await Setup({ capacity, bookingLimit, shifts, schedules });
+    try {
+        await newSetup.save(newSetup);
+        res.status(201).json(newSetup);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// update setup
+export const updateSetup = async (req, res) => {
+    console.log("Update setup");
+    if(!req.userId) return res.json({ message: 'unautheticated', type: 'err_data' })
+
+    const { id } = req.params;
+    const { capacity, bookingLimit, shifts, schedules } = req.body;
+
+    try {
+        if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Tanggal tidak ada")
+    
+        const findSetup = await Setup.findById(id);
+        if(!findSetup) return res.status(404).send("Setup tidak ada")
+
+        findSetup['capacity'] = capacity;
+        findSetup['bookingLimit'] = bookingLimit;
+        findSetup['shifts'] = shifts;
+        findSetup['schedules'] = schedules;
+
+        const updatedSetup = await Setup.findByIdAndUpdate(id, findSetup, { new: true })
+        
+        res.json(updatedSetup);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// get setup
+export const getSetup = async (req, res) => {
+    console.log("get setup");
+
+    const { id } = req.params;
+    try {
+        const findSetup = await Setup.findById(id);
+        res.json(findSetup)
     } catch (error) {
         console.log(error)
     }
